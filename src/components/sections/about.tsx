@@ -10,7 +10,7 @@ export default function About() {
             <Card className="overflow-hidden shadow-2xl shadow-primary/10 animate-float">
               <CardContent className="p-0">
                 <Image
-                  src="https://placehold.co/400x500.png"
+                  src="https://i.ibb.co/1fg7gQ44/image-400x500-1.png"
                   alt="M. Hassan Zubair"
                   width={400}
                   height={500}
@@ -26,7 +26,7 @@ export default function About() {
               Hello! I'm Hassan, a dedicated developer with a knack for building elegant and efficient solutions. My journey in tech started with a simple "Hello, World!" and has since evolved into a passion for crafting complete web experiences, from the server logic to the pixel-perfect frontend.
             </p>
             <p className="mt-4 text-lg text-muted-foreground">
-              I thrive in collaborative environments and am always eager to learn new technologies to stay at the forefront of web development. When I'm not coding, I enjoy exploring new coffee shops and contributing to open-source projects.
+              I thrive in collaborative environments and am also eager to learn new technologies to stay at the forefront of web development. When I'm not coding, I enjoy exploring new coffee shops and contributing to open-source projects.
             </p>
           </div>
         </div>
