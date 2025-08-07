@@ -35,7 +35,7 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
           <Link href="#home" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-            <Code className="h-8 w-8 text-primary" />
+            <Code className="h-8 w-8 text-primary neon-glow" />
             <span className="text-xl font-bold font-headline">M.Hassan Zubair</span>
           </Link>
           <nav className="hidden md:flex items-center gap-2">
