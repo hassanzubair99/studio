@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Menu, X, Code } from 'lucide-react';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from './theme-toggle';
 
 const navItems = [
   { name: 'About', href: '#about' },
@@ -47,8 +48,10 @@ export default function Header() {
              <Button asChild>
                 <Link href="#contact">Hire Me</Link>
               </Button>
+            <ThemeToggle />
           </nav>
-          <div className="md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
             <Button onClick={() => setIsOpen(!isOpen)} variant="ghost" size="icon">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               <span className="sr-only">Toggle menu</span>
