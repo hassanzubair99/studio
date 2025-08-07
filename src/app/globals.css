@@ -94,4 +94,17 @@ body {
   .neon-glow {
     animation: neon-glow 2.5s infinite ease-in-out;
   }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 40s linear infinite;
+  }
 }
