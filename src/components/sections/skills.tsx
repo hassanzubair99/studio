@@ -1,5 +1,6 @@
 import { Code, Server, Database, Smartphone, Brush, Cloud, Terminal } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 const skills = [
   { name: 'Frontend', icon: <Code className="h-8 w-8 text-primary" />, description: 'React, Next.js, TypeScript, Tailwind CSS' },
@@ -22,7 +23,7 @@ export default function Skills() {
         </div>
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((skill) => (
-            <Card key={skill.name} className="text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1">
+            <Card key={skill.name} className={cn("text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1", "neon-glow")}>
               <CardHeader>
                 <div className="mx-auto bg-secondary p-4 rounded-full w-fit">
                     {skill.icon}

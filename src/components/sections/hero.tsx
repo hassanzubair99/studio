@@ -11,8 +11,8 @@ export default function Hero() {
         muted
         playsInline
         className="absolute z-0 w-auto min-w-full min-h-full max-w-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
+        src="/background.mp4"
       >
-        <source src="https://cdn.coverr.co/videos/coverr-a-person-coding-at-night-4409/1080p.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-background/80"></div>
@@ -25,10 +25,10 @@ export default function Hero() {
           A passionate Full Stack Developer transforming ideas into powerful and user-friendly web applications.
         </p>
         <div className="mt-8 flex justify-center gap-4">
-          <Button asChild size="lg">
+          <Button asChild size="lg" className="neon-glow">
             <Link href="#projects">View My Work</Link>
           </Button>
-          <Button asChild size="lg" variant="outline">
+          <Button asChild size="lg" variant="outline" className="neon-glow">
             <Link href="#contact">Get in Touch</Link>
           </Button>
         </div>

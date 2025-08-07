@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import type { Project } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 interface ProjectCardProps {
   project: Project & { aiHint?: string };
@@ -12,7 +13,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Card className="flex flex-col h-full overflow-hidden transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50">
+    <Card className={cn("flex flex-col h-full overflow-hidden transition-all duration-300 hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50", "neon-glow")}>
       <CardHeader>
         <div className="aspect-video relative overflow-hidden rounded-t-lg -mt-6 -mx-6">
           <Image
