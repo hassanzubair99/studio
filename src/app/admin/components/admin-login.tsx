@@ -5,20 +5,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { login } from '../actions';
 
 export default function AdminLogin({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, this should be a secure environment variable.
-    if (password === 'hassanno2') {
+    setError('');
+    const result = await login(password);
+    if (result.success) {
       setIsAuthenticated(true);
-      setError('');
     } else {
-      setError('Invalid password. Please try again.');
+      setError(result.error || 'Invalid password. Please try again.');
     }
   };
 

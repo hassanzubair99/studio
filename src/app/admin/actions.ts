@@ -23,6 +23,15 @@ const aboutSchema = z.object({
 const projectsFilePath = path.join(process.cwd(), 'src', 'data', 'projects.json');
 const siteContentFilePath = path.join(process.cwd(), 'src', 'data', 'siteContent.json');
 
+// --- NEW LOGIN ACTION ---
+export async function login(password: string) {
+  if (password === process.env.ADMIN_PASSWORD) {
+    return { success: true };
+  } else {
+    return { success: false, error: 'Invalid password.' };
+  }
+}
+
 async function readProjects(): Promise<Project[]> {
   try {
     const fileContent = await fs.readFile(projectsFilePath, 'utf-8');
