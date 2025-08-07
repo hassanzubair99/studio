@@ -1,9 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { addProject, deleteProject, updateAboutContent } from '../actions';
+import { addProject, deleteProject, updateAboutContent, updateProject } from '../actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
-import { ArrowLeft, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import type { Project, SiteContent } from '@/lib/types';
 import Image from 'next/image';
 import {
@@ -25,6 +26,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog"
+
 
 const projectSchema = z.object({
   title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }),
@@ -49,6 +61,7 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ projects, siteContent }: AdminDashboardProps) {
   const { toast } = useToast();
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   
   const projectForm = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
@@ -69,6 +82,10 @@ export default function AdminDashboard({ projects, siteContent }: AdminDashboard
     },
   });
 
+  const editProjectForm = useForm<ProjectFormValues>({
+    resolver: zodResolver(projectSchema),
+  });
+
   const onProjectSubmit: SubmitHandler<ProjectFormValues> = async (data) => {
     const result = await addProject(data);
     if (result.success) {
@@ -77,6 +94,24 @@ export default function AdminDashboard({ projects, siteContent }: AdminDashboard
         description: 'Your project has been added.',
       });
       projectForm.reset();
+    } else {
+      toast({
+        title: 'Error',
+        description: typeof result.error === 'string' ? result.error : 'An unexpected error occurred.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const onEditProjectSubmit: SubmitHandler<ProjectFormValues> = async (data) => {
+    const originalTitle = editProjectForm.getValues('title'); 
+    const result = await updateProject(originalTitle, data);
+    if (result.success) {
+      toast({
+        title: 'Success!',
+        description: 'Your project has been updated.',
+      });
+      setIsEditDialogOpen(false);
     } else {
       toast({
         title: 'Error',
@@ -118,6 +153,14 @@ export default function AdminDashboard({ projects, siteContent }: AdminDashboard
     }
   }
 
+  const openEditDialog = (project: Project) => {
+    editProjectForm.reset({
+        ...project,
+        tags: project.tags.join(', '),
+    });
+    setIsEditDialogOpen(true);
+  }
+
   return (
     <div className="min-h-dvh bg-background py-12 px-4">
       <div className="container mx-auto">
@@ -132,7 +175,7 @@ export default function AdminDashboard({ projects, siteContent }: AdminDashboard
             <Card>
               <CardHeader>
                 <CardTitle className="text-3xl font-headline">Manage Projects</CardTitle>
-                <CardDescription>Remove existing projects from your portfolio.</CardDescription>
+                <CardDescription>Edit or remove existing projects from your portfolio.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {projects.length > 0 ? (
@@ -145,6 +188,100 @@ export default function AdminDashboard({ projects, siteContent }: AdminDashboard
                             <p className="text-sm text-muted-foreground line-clamp-1">{project.description}</p>
                         </div>
                       </div>
+                      <div className="flex items-center gap-2">
+                         <Dialog open={isEditDialogOpen && editProjectForm.getValues('title') === project.title} onOpenChange={(isOpen) => { if (!isOpen) setIsEditDialogOpen(false)}}>
+                            <DialogTrigger asChild>
+                                <Button variant="outline" size="icon" onClick={() => openEditDialog(project)}>
+                                    <Edit className="h-4 w-4" />
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Edit Project</DialogTitle>
+                                    <DialogDescription>
+                                        Update the details for your project. Click save when you're done.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <Form {...editProjectForm}>
+                                    <form onSubmit={editProjectForm.handleSubmit(onEditProjectSubmit)} className="space-y-4">
+                                         <FormField
+                                            control={editProjectForm.control}
+                                            name="title"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                <FormLabel>Project Title</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                                </FormItem>
+                                            )}
+                                            />
+                                            <FormField
+                                            control={editProjectForm.control}
+                                            name="description"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                <FormLabel>Description</FormLabel>
+                                                <FormControl>
+                                                    <Textarea {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                                </FormItem>
+                                            )}
+                                            />
+                                            <FormField
+                                            control={editProjectForm.control}
+                                            name="imageUrl"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                <FormLabel>Image URL</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                                </FormItem>
+                                            )}
+                                            />
+                                            <FormField
+                                            control={editProjectForm.control}
+                                            name="link"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                <FormLabel>Project Link</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                                </FormItem>
+                                            )}
+                                            />
+                                            <FormField
+                                            control={editProjectForm.control}
+                                            name="tags"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                <FormLabel>Tags</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} />
+                                                </FormControl>
+                                                <FormDescription>Comma-separated tags</FormDescription>
+                                                <FormMessage />
+                                                </FormItem>
+                                            )}
+                                            />
+                                        <DialogFooter>
+                                            <DialogClose asChild>
+                                                <Button type="button" variant="secondary">Cancel</Button>
+                                            </DialogClose>
+                                            <Button type="submit" disabled={editProjectForm.formState.isSubmitting}>
+                                                {editProjectForm.formState.isSubmitting ? 'Saving...' : 'Save Changes'}
+                                            </Button>
+                                        </DialogFooter>
+                                    </form>
+                                </Form>
+                            </DialogContent>
+                        </Dialog>
                        <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button variant="destructive" size="icon">
@@ -167,6 +304,7 @@ export default function AdminDashboard({ projects, siteContent }: AdminDashboard
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
+                      </div>
                     </div>
                   ))
                 ) : (

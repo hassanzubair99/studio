@@ -24,8 +24,15 @@ const projectsFilePath = path.join(process.cwd(), 'src', 'data', 'projects.json'
 const siteContentFilePath = path.join(process.cwd(), 'src', 'data', 'siteContent.json');
 
 async function readProjects(): Promise<Project[]> {
-  const fileContent = await fs.readFile(projectsFilePath, 'utf-8');
-  return JSON.parse(fileContent);
+  try {
+    const fileContent = await fs.readFile(projectsFilePath, 'utf-8');
+    return JSON.parse(fileContent);
+  } catch (error) {
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
+  }
 }
 
 async function writeProjects(projects: Project[]) {
@@ -67,6 +74,40 @@ export async function addProject(projectData: unknown) {
     return { success: false, error: 'Failed to add project due to a server error.' };
   }
 }
+
+export async function updateProject(originalTitle: string, projectData: unknown) {
+  const result = projectSchema.safeParse(projectData);
+
+  if (!result.success) {
+    return { success: false, error: result.error.flatten().fieldErrors };
+  }
+  
+  const updatedProjectData: Project = {
+    ...result.data,
+    tags: result.data.tags.split(',').map(tag => tag.trim()),
+    link: result.data.link || '#',
+  };
+
+  try {
+    const projects = await readProjects();
+    const projectIndex = projects.findIndex(p => p.title === originalTitle);
+
+    if (projectIndex === -1) {
+      return { success: false, error: 'Project not found.' };
+    }
+
+    projects[projectIndex] = updatedProjectData;
+    await writeProjects(projects);
+
+    revalidatePath('/');
+    revalidatePath('/admin');
+    return { success: true, message: 'Project updated successfully!' };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: 'Failed to update project due to a server error.' };
+  }
+}
+
 
 export async function deleteProject(title: string) {
     try {
