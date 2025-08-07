@@ -1,39 +1,13 @@
+
 [
   {
-    "title": "Portfolio Website",
-    "description": "The very site you are on. A modern, responsive portfolio built with Next.js and Tailwind CSS, featuring a clean design and an admin panel for project management.",
-    "imageUrl": "https://placehold.co/600x400.png",
-    "link": "#",
+    "title": "E-COMMERCE WEBSITE BANDAGE",
+    "description": "Welcome to Bandage, where fashion meets thoughtful design and user-friendly experience. Our Summer 2020 drop highlights standout collections for Men, Women, Accessories, and Kids, each built around a fusion of bold Graphic Design and refined aesthetics. Discover our Editor's Picks and Bestseller Products, curated to inspire confidence and timeless style.",
+    "imageUrl": "https://i.ibb.co/68gC6D1/p1.png",
+    "link": "https://e-commerce-hack-hassan-1uyq.vercel.app/",
     "tags": [
       "Next.js",
-      "Tailwind CSS",
-      "TypeScript",
-      "Server Actions"
-    ],
-    "aiHint": "website screenshot"
-  },
-  {
-    "title": "E-commerce Platform",
-    "description": "A full-stack e-commerce application featuring product listings, a shopping cart, and a checkout process. Designed for scalability and a seamless user experience.",
-    "imageUrl": "https://placehold.co/600x400.png",
-    "link": "#",
-    "tags": [
-      "React",
-      "Node.js",
-      "MongoDB"
-    ],
-    "aiHint": "online store"
-  },
-  {
-    "title": "Mobile Banking App",
-    "description": "A secure and intuitive mobile banking application that allows users to manage their finances on the go, with features like transfers, bill payments, and transaction history.",
-    "imageUrl": "https://placehold.co/600x400.png",
-    "link": "#",
-    "tags": [
-      "React Native",
-      "Firebase",
-      "UX/UI Design"
-    ],
-    "aiHint": "mobile app"
+      "tailwind css"
+    ]
   }
 ]
