@@ -1,12 +1,24 @@
-import projectsData from '@/data/projects.json';
 import ProjectCard from '@/components/project-card';
 import type { Project } from '@/lib/types';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 
-export default function Projects() {
-  const projects: Project[] = projectsData;
+// All projects are now managed directly in this file.
+// To add, edit, or remove a project, modify the 'projects' list below.
+const projects: Project[] = [
+  {
+    "title": "E-COMMERCE WEBSITE BANDAGE",
+    "description": "Welcome to Bandage, where fashion meets thoughtful design and user-friendly experience. Our Summer 2020 drop highlights standout collections for Men, Women, Accessories, and Kids, each built around a fusion of bold Graphic Design and refined aesthetics. Discover our Editor's Picks and Bestseller Products, curated to inspire confidence and timeless style.",
+    "imageUrl": "https://i.ibb.co/68gC6D1/p1.png",
+    "link": "https://e-commerce-hack-hassan-1uyq.vercel.app/",
+    "tags": [
+      "Next.js",
+      "tailwind css"
+    ]
+  }
+];
 
+export default function Projects() {
   return (
     <section id="projects">
       <div className="container mx-auto px-4">
@@ -20,13 +32,6 @@ export default function Projects() {
           {projects.map((project, index) => (
             <ProjectCard key={index} project={project} />
           ))}
-        </div>
-        <div className="mt-12 text-center">
-          <Button variant="link" asChild>
-            <Link href="/admin">
-              Admin: Add a new project
-            </Link>
-          </Button>
         </div>
       </div>
     </section>

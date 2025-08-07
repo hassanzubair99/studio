@@ -1,19 +1,14 @@
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
-import fs from 'fs/promises';
-import path from 'path';
 import type { SiteContent } from '@/lib/types';
 
-async function getSiteContent(): Promise<SiteContent> {
-    const filePath = path.join(process.cwd(), 'src', 'data', 'siteContent.json');
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContent) as SiteContent;
+// The "About Me" content is now managed directly in this file.
+const about = {
+  paragraph1: "I am Hassan Zubair, an ambitious IT Developer and AI Website Maker based in Karachi, Pakistan. With a passion for building modern, responsive, and animated websites, I specialize in technologies like React.js, Next.js, and Tailwind CSS. I also develop and customize websites using Odoo for small businesses. My skill set includes AI tool integration and website automation, allowing me to create smart, user-centric digital experiences. I’ve received recognition for both leadership and communication, highlighting my ability to work effectively in teams and deliver exceptional results.",
+  paragraph2: "Currently pursuing my Matriculation, I’m driven by the dream of launching a globally recognized tech company like Microsoft or Google. I constantly push myself to learn, innovate, and contribute to cutting-edge web and AI development projects. With creativity, problem-solving skills, and a strong work ethic, I strive to make a lasting impact in the tech world. You can view my work at hassan-portfolio-three.vercel.app."
 }
 
-export default async function About() {
-  const siteContent = await getSiteContent();
-  const { about } = siteContent;
-
+export default function About() {
   return (
     <section id="about" className="bg-secondary">
       <div className="container mx-auto px-4">
