@@ -10,7 +10,7 @@ export default function About() {
             <Card className="overflow-hidden shadow-2xl shadow-primary/10 animate-float">
               <CardContent className="p-0">
                 <Image
-                  src="/profile.png"
+                  src="https://placehold.co/400x500.png"
                   alt="M. Hassan Zubair"
                   width={400}
                   height={500}
