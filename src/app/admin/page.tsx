@@ -15,7 +15,7 @@ export default function AdminPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real application, this should be a secure environment variable.
-    if (password === 'mhzadmin') {
+    if (password === 'hassanno2') {
       setIsAuthenticated(true);
       setError('');
     } else {
