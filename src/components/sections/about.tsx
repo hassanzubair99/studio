@@ -7,7 +7,7 @@ export default function About() {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-5 gap-8 md:gap-12 items-center">
           <div className="md:col-span-2">
-            <Card className="overflow-hidden shadow-2xl shadow-primary/10">
+            <Card className="overflow-hidden shadow-2xl shadow-primary/10 animate-float">
               <CardContent className="p-0">
                 <Image
                   src="https://placehold.co/400x500.png"
