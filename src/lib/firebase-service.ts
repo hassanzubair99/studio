@@ -4,18 +4,18 @@ import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore, DocumentData } from 'firebase-admin/firestore';
 import { Project, SiteContent } from './types';
 
-// Important: Replace with your service account key
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_KEY
-  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY)
-  : undefined;
-
+// More robust Firebase initialization
 if (getApps().length === 0) {
-  if (serviceAccount) {
+  try {
+    const serviceAccount = JSON.parse(
+      process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
+    );
     initializeApp({
       credential: cert(serviceAccount),
     });
-  } else {
-    // This is for local development without service account key.
+  } catch (error) {
+    console.log('Firebase service account key not found, initializing with default credentials.');
+    // This is for local development without a service account key.
     // It will use Application Default Credentials.
     // Make sure to run `gcloud auth application-default login`
     initializeApp();
