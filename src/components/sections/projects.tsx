@@ -1,9 +1,19 @@
 import ProjectCard from '@/components/project-card';
-import { getProjects } from '@/lib/firebase-service';
+import type { Project } from '@/lib/types';
 
-export default async function Projects() {
-  const projects = await getProjects();
+const projects: Project[] = [
+    {
+    id: '1',
+    title: 'E-COMMERCE WEBSITE BANDAGE',
+    description: "Welcome to Bandage, where fashion meets thoughtful design and user-friendly experience. Our Summer 2020 drop highlights standout collections for Men, Women, Accessories, and Kids, each built around a fusion of bold Graphic Design and refined aesthetics. Discover our Editor's Picks and Bestseller Products, curated to inspire confidence and timeless style.",
+    imageUrl: 'https://i.ibb.co/68gC6D1/p1.png',
+    link: 'https://e-commerce-hack-hassan-1uyq.vercel.app/',
+    tags: ['Next.js', 'Tailwind CSS']
+  }
+];
 
+
+export default function Projects() {
   return (
     <section id="projects">
       <div className="container mx-auto px-4">
