@@ -41,21 +41,21 @@ export default function Contact() {
               <Mail className="h-6 w-6 text-primary mt-1" />
               <div>
                 <h3 className="text-xl font-bold">Email</h3>
-                <p className="text-muted-foreground">m.hassan.zubair@example.com</p>
+                <p className="text-muted-foreground">hassanzubair4243@gmail.com</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
               <Phone className="h-6 w-6 text-primary mt-1" />
               <div>
                 <h3 className="text-xl font-bold">Phone</h3>
-                <p className="text-muted-foreground">+1 (234) 567-890</p>
+                <p className="text-muted-foreground">+92 3705965670</p>
               </div>
             </div>
              <div className="flex items-start gap-4">
               <MapPin className="h-6 w-6 text-primary mt-1" />
               <div>
                 <h3 className="text-xl font-bold">Location</h3>
-                <p className="text-muted-foreground">Remote | Based in Your City</p>
+                <p className="text-muted-foreground">Remote | Karachi, Pakistan</p>
               </div>
             </div>
           </div>
