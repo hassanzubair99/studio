@@ -1,59 +1,43 @@
-'use client';
-
 import { useState } from 'react';
 import AdminDashboard from './components/admin-dashboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import fs from 'fs/promises';
+import path from 'path';
+import type { Project, SiteContent } from '@/lib/types';
+import AdminLogin from './components/admin-login';
 
-export default function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real application, this should be a secure environment variable.
-    if (password === 'hassanno2') {
-      setIsAuthenticated(true);
-      setError('');
-    } else {
-      setError('Invalid password. Please try again.');
+async function getProjects(): Promise<Project[]> {
+    const filePath = path.join(process.cwd(), 'src', 'data', 'projects.json');
+    try {
+        const fileContent = await fs.readFile(filePath, 'utf-8');
+        return JSON.parse(fileContent) as Project[];
+    } catch (error) {
+        // If the file doesn't exist or is empty, return an empty array
+        if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+            return [];
+        }
+        console.error("Failed to read projects:", error);
+        return [];
     }
-  };
+}
 
-  if (isAuthenticated) {
-    return <AdminDashboard />;
-  }
+async function getSiteContent(): Promise<SiteContent> {
+    const filePath = path.join(process.cwd(), 'src', 'data', 'siteContent.json');
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(fileContent) as SiteContent;
+}
+
+
+export default async function AdminPage() {
+  const projects = await getProjects();
+  const siteContent = await getSiteContent();
 
   return (
-    <div className="min-h-dvh flex items-center justify-center bg-secondary p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl font-headline">Admin Access</CardTitle>
-          <CardDescription>Enter the password to manage projects.</CardDescription>
-        </CardHeader>
-        <form onSubmit={handleLogin}>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-              />
-            </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full">Login</Button>
-          </CardFooter>
-        </form>
-      </Card>
-    </div>
+    <AdminLogin>
+        <AdminDashboard projects={projects} siteContent={siteContent} />
+    </AdminLogin>
   );
 }
